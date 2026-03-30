@@ -1,92 +1,131 @@
-/* Lab 8 Task 3: Smart University Grading Ecosystem - Hierarchical Inheritance
-UML:
-Student (base: calculateGrade)
-├── ExamStudent (grade = examScore)
-└── ProjectStudent (grade = (project + quiz + presentation)/3)
-*/
+import java.util.Scanner;
 
 abstract class Student {
     protected String name;
-    protected String category;
-    
-    public Student(String n, String cat) {
-        name = n;
-        category = cat;
+    protected int rollNo;
+
+    public Student(String name, int rollNo) {
+        this.name = name;
+        this.rollNo = rollNo;
     }
-    
+
     public abstract double calculateGrade();
-    
+
     public String getPerformanceCategory() {
         double grade = calculateGrade();
-        if (grade > 90) return "Excellent";
-        else if (grade >= 80) return "Good";
-        else return "Needs Improvement";
+        if (grade >= 85) return "Excellent";
+            else if (grade >= 60) return "Good";
+        return "Needs Improvement";
     }
-    
-    public String toString() {
-        return name + " (" + category + "): Grade=" + calculateGrade() + " [" + getPerformanceCategory() + "]";
-    }
-    
+
     public String getName() {
         return name;
     }
-    
-    public double getGrade() {
-        return calculateGrade();
+
+    public String toString() {
+        return name + " (Roll: " + rollNo + "): Grade=" + calculateGrade() + " [" + getPerformanceCategory() + "]";
     }
 }
 
 class ExamStudent extends Student {
-    private double examScore;
-    
-    public ExamStudent(String n, double score) {
-        super(n, "Exam");
-        examScore = score;
+    private double midterm;
+    private double finalExam;
+
+    public ExamStudent(String name, int rollNo, double midterm, double finalExam) {
+        super(name, rollNo);
+        this.midterm = midterm;
+        this.finalExam = finalExam;
     }
-    
+
+    @Override
     public double calculateGrade() {
-        return examScore;
+            return midterm * 0.4 + finalExam * 0.6;
     }
 }
 
 class ProjectStudent extends Student {
-    private double project, quiz, presentation;
-    
-    public ProjectStudent(String n, double p, double q, double pres) {
-        super(n, "Project");
-        project = p;
-        quiz = q;
-        presentation = pres;
+    private double quiz;
+    private double project;
+    private double presentation;
+
+    public ProjectStudent(String name, int rollNo, double quiz, double project, double presentation) {
+        super(name, rollNo);
+        this.quiz = quiz;
+        this.project = project;
+        this.presentation = presentation;
     }
-    
+
+    @Override
     public double calculateGrade() {
-        return (project + quiz + presentation) / 3.0;
+        return quiz * 0.3 + project * 0.4 + presentation * 0.3;
+    }
+}
+
+class AttendanceStudent extends Student {
+    private double baseGrade;
+    private double attendancePercent;
+
+    public AttendanceStudent(String name, int rollNo, double baseGrade, double attendancePercent) {
+        super(name, rollNo);
+        this.baseGrade = baseGrade;
+        this.attendancePercent = attendancePercent;
+    }
+
+    @Override
+    public double calculateGrade() {
+        double bonus = attendancePercent >= 90 ? 5 : 0;
+            return baseGrade + bonus;
     }
 }
 
 public class Lab8_Task3_GradingSystem {
     public static void main(String[] args) {
-        Student[] students = {
-            new ExamStudent("Alice", 92),
-            new ExamStudent("Bob", 78),
-            new ProjectStudent("Charlie", 88, 82, 90),
-            new ProjectStudent("Diana", 75, 80, 72)
-        };
-        
-        double topGrade = 0;
-        Student topStudent = null;
-        
-        System.out.println("=== University Grading Summary ===");
-        for (Student s : students) {
-            System.out.println(s);
-            double grade = s.getGrade();
-            if (grade > topGrade) {
-                topGrade = grade;
-                topStudent = s;
+        Scanner sc = new Scanner(System.in);
+        Student[] students = new Student[3];
+
+        System.out.println("=== University Grading System ===");
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("\nStudent " + (i + 1) + " type (1=ExamOnly, 2=Project, 3=Attendance): ");
+            int type = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+            System.out.print("Roll No: ");
+            int roll = sc.nextInt();
+
+            if (type == 1) {
+                System.out.print("Midterm marks: ");
+                double mid = sc.nextDouble();
+                System.out.print("Final exam marks: ");
+                double fin = sc.nextDouble();
+                students[i] = new ExamStudent(name, roll, mid, fin);
+            } else if (type == 2) {
+                System.out.print("Quiz marks: ");
+                double q = sc.nextDouble();
+                System.out.print("Project marks: ");
+                double p = sc.nextDouble();
+                System.out.print("Presentation marks: ");
+                double pr = sc.nextDouble();
+                students[i] = new ProjectStudent(name, roll, q, p, pr);
+            } else {
+                System.out.print("Base grade: ");
+                double base = sc.nextDouble();
+                System.out.print("Attendance %: ");
+                double att = sc.nextDouble();
+                students[i] = new AttendanceStudent(name, roll, base, att);
             }
         }
-        
-        System.out.println("\nTop Performer: " + topStudent);
-        System.out.println("All categories processed. System supports new types via inheritance.");
+
+        System.out.println("\n=== Results ===");
+        Student top = students[0];
+        for (Student s : students) {
+            System.out.println(s);
+            if (s.calculateGrade() > top.calculateGrade()) {
+                top = s;
+            }
+        }
+        System.out.println("\nTop Performer: " + top.getName());
+        sc.close();
     }
 }

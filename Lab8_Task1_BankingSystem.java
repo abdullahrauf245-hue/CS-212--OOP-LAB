@@ -1,113 +1,124 @@
-/* Lab 8 Task 1: Banking System - Hierarchical Inheritance
-UML:
-BankAccount (base)
-├── SavingsAccount (interestRate, calculateInterest)
-└── CurrentAccount (overdraftLimit)
-*/
+import java.util.Scanner;
 
 class BankAccount {
     protected String accountNumber;
     protected String holderName;
     protected double balance;
-    
-    public BankAccount(String accNo, String name, double bal) {
-     accountNumber = accNo;
-        holderName = name;
-        balance = bal;
+
+    public BankAccount(String accountNumber, String holderName, double balance) {
+        this.accountNumber = accountNumber;
+        this.holderName = holderName;
+        this.balance = balance;
     }
-    
+
     public void deposit(double amount) {
         balance += amount;
-   }
-    
-    public void withdraw(double amount) {
-        if (amount <= balance)
-            balance -= amount;
-        else
-            System.out.println("Insufficient balance");
+        System.out.println("Deposited: " + amount);
     }
-    
+
+    public void withdraw(double amount) {
+    if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient balance.");
+        }
+    }
+
     public double getBalance() {
         return balance;
     }
-    
-    public String getAccountNumber() {
-        return accountNumber;
+
+    public String getHolderName() {
+        return holderName;
     }
-    
+
     public String toString() {
-        return holderName + " (" + accountNumber + "): $" + balance;
+        return holderName + " | Balance: " + balance;
     }
 }
 
 class SavingsAccount extends BankAccount {
     private double interestRate;
-    
-    public SavingsAccount(String accNo, String name, double bal, double rate) {
-        super(accNo, name, bal);
-        interestRate = rate;
+
+    public SavingsAccount(String accountNumber, String holderName, double balance, double interestRate) {
+        super(accountNumber, holderName, balance);
+        this.interestRate = interestRate;
     }
-    
-    public void calculateInterest() {
-        balance += balance * interestRate;
+
+    public double calculateInterest() {
+        return balance * interestRate / 100;
     }
-    
-    public String toString() {
-        return super.toString() + " [Savings " + interestRate*100 + "%]";
+
+    public void applyInterest() {
+            balance += calculateInterest();
+        System.out.println("Interest applied. New balance: " + balance);
     }
 }
 
 class CurrentAccount extends BankAccount {
     private double overdraftLimit;
-    
-    public CurrentAccount(String accNo, String name, double bal, double limit) {
-        super(accNo, name, bal);
-        overdraftLimit = limit;
+
+    public CurrentAccount(String accountNumber, String holderName, double balance, double overdraftLimit) {
+        super(accountNumber, holderName, balance);
+        this.overdraftLimit = overdraftLimit;
     }
-    
+
+    @Override
     public void withdraw(double amount) {
-        if (amount <= balance + overdraftLimit)
+        if (amount <= balance + overdraftLimit) {
             balance -= amount;
-        else
-            System.out.println("Overdraft limit exceeded");
-    }
-    
-    public String toString() {
-        return super.toString() + " [Current]";
+            System.out.println("Withdrawn: " + amount + " | Balance: " + balance);
+        } else {
+        System.out.println("Overdraft limit exceeded.");
+        }
     }
 }
 
 public class Lab8_Task1_BankingSystem {
     public static void main(String[] args) {
-        BankAccount[] accounts = {
-            new SavingsAccount("SAV001", "Alice", 1000, 0.05),
-            new SavingsAccount("SAV002", "Bob", 2000, 0.04),
-            new CurrentAccount("CUR001", "Charlie", 1500, 500)
-        };
-        
-        // Deposits and withdrawals
-        accounts[0].deposit(500);
-        accounts[1].deposit(300);
-        accounts[2].withdraw(200);
-        
-        // Calculate interest for savings only (polymorphism)
-        for (BankAccount acc : accounts) {
-            if (acc instanceof SavingsAccount) {
-                ((SavingsAccount)acc).calculateInterest();
+        Scanner sc = new Scanner(System.in);
+        BankAccount[] accounts = new BankAccount[3];
+
+        System.out.println("=== Banking System ===");
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("\nAccount " + (i + 1) + " type (1=Savings, 2=Current): ");
+            int type = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Holder Name: ");
+            String name = sc.nextLine();
+            System.out.print("Account Number: ");
+            String accNo = sc.nextLine();
+            System.out.print("Initial Balance: ");
+            double bal = sc.nextDouble();
+
+            if (type == 1) {
+                System.out.print("Interest Rate (%): ");
+                double rate = sc.nextDouble();
+                SavingsAccount sa = new SavingsAccount(accNo, name, bal, rate);
+                sa.applyInterest();
+                accounts[i] = sa;
+            } else {
+                System.out.print("Overdraft Limit: ");
+                double limit = sc.nextDouble();
+                accounts[i] = new CurrentAccount(accNo, name, bal, limit);
             }
         }
-        
+
         // Find highest balance and total
         double total = 0;
         BankAccount highest = accounts[0];
         for (BankAccount acc : accounts) {
-            System.out.println(acc);
             total += acc.getBalance();
-            if (acc.getBalance() > highest.getBalance())
+            if (acc.getBalance() > highest.getBalance()) {
                 highest = acc;
+            }
         }
-        
-        System.out.println("\nHighest balance: " + highest);
-        System.out.println("Total bank balance: $" + total);
+
+        System.out.println("\n=== Summary ===");
+        System.out.println("Total Bank Balance: " + total);
+        System.out.println("Highest Balance Account: " + highest);
+        sc.close();
     }
 }

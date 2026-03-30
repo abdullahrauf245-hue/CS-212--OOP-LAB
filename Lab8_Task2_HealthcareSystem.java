@@ -1,95 +1,121 @@
-/* Lab 8 Task 2: Smart Healthcare Monitoring System - Hierarchical Inheritance
-UML:
-Patient (base: vitals, severity, status)
-├── CriticalPatient (high freq monitor, immediate attention)
-└── StablePatient (normal monitor)
-*/
+import java.util.Scanner;
 
-class Patient {
+abstract class Patient {
     protected String name;
-    protected double vitalsLevel; // lower = worse
-    protected String severity;
-    
-    public Patient(String n, double v, String s) {
-        name = n;
-     vitalsLevel = v;
-        severity = s;
+    protected int age;
+    protected String condition;
+
+    public Patient(String name, int age, String condition) {
+        this.name = name;
+        this.age = age;
+        this.condition = condition;
     }
-    
-    public void updateVitals(double newVitals) {
-        vitalsLevel = newVitals;
-    }
-    
-    public String getStatus() {
-        return severity + " - Vitals: " + vitalsLevel;
-    }
-    
-    public boolean needsAttention() {
-        return vitalsLevel < 5.0;
-    }
-    
+
+    public abstract String evaluateHealth();
+
     public String getName() {
         return name;
     }
-    
-    public double getVitals() {
-        return vitalsLevel;
-    }
-    
+
     public String toString() {
-        return name + ": " + getStatus();
+    return name + " | Age: " + age + " | Condition: " + condition;
     }
 }
 
 class CriticalPatient extends Patient {
-    public CriticalPatient(String n, double v) {
-        super(n, v, "CRITICAL");
+    private int heartRate;
+
+    public CriticalPatient(String name, int age, String condition, int heartRate) {
+        super(name, age, condition);
+        this.heartRate = heartRate;
     }
-    
-    public String getStatus() {
-        if (vitalsLevel < 3.0) return "EMERGENCY IMMEDIATE ATTENTION";
-        return super.getStatus();
-    }
-    
-    public boolean needsAttention() {
-        return true; // always
+
+    @Override
+    public String evaluateHealth() {
+        if (heartRate > 120 || heartRate < 50) {
+                return "CRITICAL - Immediate attention required!";
+        }
+        return "Stable but under observation.";
     }
 }
 
 class StablePatient extends Patient {
-    public StablePatient(String n, double v) {
-        super(n, v, "STABLE");
+    private double temperature;
+
+    public StablePatient(String name, int age, String condition, double temperature) {
+        super(name, age, condition);
+        this.temperature = temperature;
     }
-    
-    public boolean needsAttention() {
-        return vitalsLevel < 4.0;
+
+    @Override
+    public String evaluateHealth() {
+        if (temperature > 38.5) {
+            return "Fever detected - Monitor closely.";
+        }
+            return "Stable - Routine monitoring.";
+    }
+}
+
+class RecoveryPatient extends Patient {
+    private int recoveryDays;
+
+    public RecoveryPatient(String name, int age, String condition, int recoveryDays) {
+        super(name, age, condition);
+        this.recoveryDays = recoveryDays;
+    }
+
+    @Override
+    public String evaluateHealth() {
+        if (recoveryDays < 3) {
+            return "Early recovery - Needs close care.";
+        }
+        return "Recovery progressing well.";
     }
 }
 
 public class Lab8_Task2_HealthcareSystem {
     public static void main(String[] args) {
-        Patient[] patients = {
-            new CriticalPatient("PatientA", 2.5),
-            new CriticalPatient("PatientB", 4.2),
-            new StablePatient("PatientC", 6.8),
-            new StablePatient("PatientD", 3.9)
-        };
-        
-        // Update some vitals (simulate monitoring)
-        patients[0].updateVitals(1.8);
-        patients[3].updateVitals(4.5);
-        
-        int criticalCount = 0;
-        System.out.println("=== Patient Monitoring Summary ===");
-        for (Patient p : patients) {
-            System.out.println(p);
-            if (p.needsAttention()) {
-                criticalCount++;
-                System.out.println("  -> NEEDS IMMEDIATE ATTENTION!");
+        Scanner sc = new Scanner(System.in);
+        Patient[] patients = new Patient[3];
+
+        System.out.println("=== Healthcare Monitoring System ===");
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("\nPatient " + (i + 1) + " type (1=Critical, 2=Stable, 3=Recovery): ");
+            int type = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+            System.out.print("Age: ");
+            int age = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Condition: ");
+            String condition = sc.nextLine();
+
+            if (type == 1) {
+                System.out.print("Heart Rate: ");
+                int hr = sc.nextInt();
+                patients[i] = new CriticalPatient(name, age, condition, hr);
+            } else if (type == 2) {
+                System.out.print("Temperature (C): ");
+                double temp = sc.nextDouble();
+                patients[i] = new StablePatient(name, age, condition, temp);
+            } else {
+                System.out.print("Recovery Days: ");
+                int days = sc.nextInt();
+                patients[i] = new RecoveryPatient(name, age, condition, days);
             }
         }
-        
-        System.out.println("\nCritical cases requiring attention: " + criticalCount);
-        System.out.println("Health Status Summary: Process complete.");
+
+        System.out.println("\n=== Health Status Summary ===");
+        for (Patient p : patients) {
+            System.out.println(p);
+            System.out.println("Status: " + p.evaluateHealth());
+            if (p.evaluateHealth().contains("CRITICAL")) {
+                System.out.println("*** ALERT: " + p.getName() + " needs immediate help! ***");
+            }
+            System.out.println("---");
+        }
+        sc.close();
     }
 }
