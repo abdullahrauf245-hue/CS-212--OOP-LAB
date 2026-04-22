@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class Task4_ReverseAndPalindrome {
+class Task4_ReverseAndPalindrome_Lab6 {
 // Returns a new array containing elements in reverse order
     public static int[] reverseArray(int[] array) {
         int[] reversed = new int[array.length];

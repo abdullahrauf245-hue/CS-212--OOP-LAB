@@ -3,18 +3,18 @@
 
 import java.util.Scanner;
 
-public class Task4_Stack {
+class Task4_Stack_Lab6 {
     private int[] stck;
     private int tos;
     private final int MAX_SIZE; // Use a constant for better readability
 
     // Constructor with default size
-    public Task4_Stack() {
+    public Task4_Stack_Lab6() {
         this(10); // Calls the other constructor with size 10
     }
 
     // Constructor with custom size
-    public Task4_Stack(int size) {
+    public Task4_Stack_Lab6(int size) {
         MAX_SIZE = size;
         stck = new int[MAX_SIZE];
         tos = -1;
@@ -75,9 +75,16 @@ public class Task4_Stack {
         }
     }
 
+    public void displayStatus() {
+        System.out.println("Size: " + size());
+        System.out.println("Empty: " + isEmpty());
+        System.out.println("Full: " + isFull());
+        System.out.println("Top: " + (isEmpty() ? "N/A" : peek()));
+    }
+
     public static void main(String[] args) {
         // Initialize stack with size 5 for testing
-        Task4_Stack myStack = new Task4_Stack(5);
+        Task4_Stack_Lab6 myStack = new Task4_Stack_Lab6(5);
         Scanner sc = new Scanner(System.in);
         
         System.out.println("--- Stack Demonstration ---");

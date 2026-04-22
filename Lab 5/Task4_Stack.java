@@ -75,6 +75,13 @@ public class Task4_Stack {
         }
     }
 
+    public void displayStatus() {
+        System.out.println("Size: " + size());
+        System.out.println("Empty: " + isEmpty());
+        System.out.println("Full: " + isFull());
+        System.out.println("Top: " + (isEmpty() ? "N/A" : peek()));
+    }
+
     public static void main(String[] args) {
         // Initialize stack with size 5 for testing
         Task4_Stack myStack = new Task4_Stack(5);

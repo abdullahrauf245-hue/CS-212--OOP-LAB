@@ -1,6 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
-public class Task3_ArrayOperations { 
+class Task3_ArrayOperations_Lab6 { 
      //Initializes an array of size N with random values from user input
     public static void populateArray(int[] array, int N, Scanner scanner) {
         System.out.println("Enter " + N + " integers for the array:");

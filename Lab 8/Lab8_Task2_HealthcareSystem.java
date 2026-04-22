@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-abstract class Patient {
+abstract class HealthPatient {
     protected String name;
     protected int age;
     protected String condition;
 
-    public Patient(String name, int age, String condition) {
+    public HealthPatient(String name, int age, String condition) {
         this.name = name;
         this.age = age;
         this.condition = condition;
@@ -22,7 +22,7 @@ abstract class Patient {
     }
 }
 
-class CriticalPatient extends Patient {
+class CriticalPatient extends HealthPatient {
     private int heartRate;
 
     public CriticalPatient(String name, int age, String condition, int heartRate) {
@@ -39,7 +39,7 @@ class CriticalPatient extends Patient {
     }
 }
 
-class StablePatient extends Patient {
+class StablePatient extends HealthPatient {
     private double temperature;
 
     public StablePatient(String name, int age, String condition, double temperature) {
@@ -56,7 +56,7 @@ class StablePatient extends Patient {
     }
 }
 
-class RecoveryPatient extends Patient {
+class RecoveryPatient extends HealthPatient {
     private int recoveryDays;
 
     public RecoveryPatient(String name, int age, String condition, int recoveryDays) {
@@ -76,7 +76,7 @@ class RecoveryPatient extends Patient {
 public class Lab8_Task2_HealthcareSystem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Patient[] patients = new Patient[3];
+        HealthPatient[] patients = new HealthPatient[3];
 
         System.out.println("=== Healthcare Monitoring System ===");
 
@@ -108,7 +108,7 @@ public class Lab8_Task2_HealthcareSystem {
         }
 
         System.out.println("\n=== Health Status Summary ===");
-        for (Patient p : patients) {
+        for (HealthPatient p : patients) {
             System.out.println(p);
             System.out.println("Status: " + p.evaluateHealth());
             if (p.evaluateHealth().contains("CRITICAL")) {

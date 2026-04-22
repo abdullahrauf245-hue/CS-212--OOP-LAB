@@ -1,7 +1,7 @@
 // Task#1: Employee Test Application
 // File: Task1_EmployeeTest.java
 
-public class Task1_EmployeeTest {
+class Task1_EmployeeTest_Lab6 {
     public static void main(String[] args) {
         // Create two Employee objects
         Task1_Employee employee1 = new Task1_Employee("John", "Smith", 3000.0);

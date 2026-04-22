@@ -3,7 +3,7 @@
 
 import java.util.Scanner;
 
-public class Task3_HealthProfileTest {
+class Task3_HealthProfileTest_Lab6 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         
@@ -34,7 +34,7 @@ public class Task3_HealthProfileTest {
         double weight = input.nextDouble();
         
         // Create HealthProfile object
-        Task3_HealthProfile profile = new Task3_HealthProfile(
+        Task3_HealthProfile_Lab6 profile = new Task3_HealthProfile_Lab6(
             firstName, lastName, gender, 
             birthMonth, birthDay, birthYear,
             height, weight

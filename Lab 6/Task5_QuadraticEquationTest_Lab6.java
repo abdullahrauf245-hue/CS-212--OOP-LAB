@@ -3,7 +3,7 @@
 
 import java.util.Scanner;
 
-public class Task5_QuadraticEquationTest {
+class Task5_QuadraticEquationTest_Lab6 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         
@@ -22,7 +22,7 @@ public class Task5_QuadraticEquationTest {
         double c = input.nextDouble();
         
         // Create QuadraticEquation object
-        Task5_QuadraticEquation equation = new Task5_QuadraticEquation(a, b, c);
+        Task5_QuadraticEquation_Lab6 equation = new Task5_QuadraticEquation_Lab6(a, b, c);
         
         // Calculate discriminant
         double discriminant = equation.getDiscriminant();

@@ -48,4 +48,31 @@ public class Task5_QuadraticEquationTest {
         
         input.close();
     }
+
+    // Keep test self-contained to avoid cross-file default-package resolution issues.
+    static class Task5_QuadraticEquation {
+        private double a;
+        private double b;
+        private double c;
+
+        Task5_QuadraticEquation(double a, double b, double c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+
+        double getDiscriminant() {
+            return (b * b) - (4 * a * c);
+        }
+
+        double getRoot1() {
+            double disc = getDiscriminant();
+            return (disc < 0 || a == 0) ? 0 : (-b + Math.sqrt(disc)) / (2 * a);
+        }
+
+        double getRoot2() {
+            double disc = getDiscriminant();
+            return (disc < 0 || a == 0) ? 0 : (-b - Math.sqrt(disc)) / (2 * a);
+        }
+    }
 }

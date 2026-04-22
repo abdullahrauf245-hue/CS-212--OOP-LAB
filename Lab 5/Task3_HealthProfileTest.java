@@ -69,4 +69,80 @@ public class Task3_HealthProfileTest {
         
         input.close();
     }
+
+    // Keep test self-contained to avoid cross-file default-package resolution issues.
+    static class Task3_HealthProfile {
+        private String firstName;
+        private String lastName;
+        private String gender;
+        private int birthMonth;
+        private int birthDay;
+        private int birthYear;
+        private double heightInches;
+        private double weightPounds;
+
+        Task3_HealthProfile(String firstName, String lastName, String gender,
+                            int birthMonth, int birthDay, int birthYear,
+                            double heightInches, double weightPounds) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.gender = gender;
+            this.birthMonth = birthMonth;
+            this.birthDay = birthDay;
+            this.birthYear = birthYear;
+            this.heightInches = heightInches;
+            this.weightPounds = weightPounds;
+        }
+
+        String getFirstName() { return firstName; }
+        String getLastName() { return lastName; }
+        String getGender() { return gender; }
+        int getBirthMonth() { return birthMonth; }
+        int getBirthDay() { return birthDay; }
+        int getBirthYear() { return birthYear; }
+        double getHeightInches() { return heightInches; }
+        double getWeightPounds() { return weightPounds; }
+
+        int calculateAge() {
+            int currentYear = 2026;
+            int currentMonth = 4;
+            int currentDay = 22;
+            int age = currentYear - birthYear;
+            if (birthMonth > currentMonth || (birthMonth == currentMonth && birthDay > currentDay)) {
+                age--;
+            }
+            return age;
+        }
+
+        int calculateMaxHeartRate() {
+            return 220 - calculateAge();
+        }
+
+        String calculateTargetHeartRate() {
+            int maxHR = calculateMaxHeartRate();
+            int minTarget = (int) (maxHR * 0.50);
+            int maxTarget = (int) (maxHR * 0.85);
+            return minTarget + " - " + maxTarget;
+        }
+
+        double calculateBMI() {
+            return (weightPounds / (heightInches * heightInches)) * 703;
+        }
+
+        String getBMICategory() {
+            double bmi = calculateBMI();
+            if (bmi < 18.5) return "Underweight";
+            if (bmi < 25) return "Normal weight";
+            if (bmi < 30) return "Overweight";
+            return "Obesity";
+        }
+
+        void displayBMIChart() {
+            System.out.println("\n=== BMI Values Chart ===");
+            System.out.println("Underweight:    BMI < 18.5");
+            System.out.println("Normal weight:  BMI = 18.5 - 24.9");
+            System.out.println("Overweight:     BMI = 25 - 29.9");
+            System.out.println("Obesity:        BMI >= 30");
+        }
+    }
 }

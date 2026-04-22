@@ -38,10 +38,10 @@ class BankAccount {
     }
 }
 
-class SavingsAccount extends BankAccount {
+class Lab8SavingsAccount extends BankAccount {
     private double interestRate;
 
-    public SavingsAccount(String accountNumber, String holderName, double balance, double interestRate) {
+    public Lab8SavingsAccount(String accountNumber, String holderName, double balance, double interestRate) {
         super(accountNumber, holderName, balance);
         this.interestRate = interestRate;
     }
@@ -96,7 +96,7 @@ public class Lab8_Task1_BankingSystem {
             if (type == 1) {
                 System.out.print("Interest Rate (%): ");
                 double rate = sc.nextDouble();
-                SavingsAccount sa = new SavingsAccount(accNo, name, bal, rate);
+                Lab8SavingsAccount sa = new Lab8SavingsAccount(accNo, name, bal, rate);
                 sa.applyInterest();
                 accounts[i] = sa;
             } else {

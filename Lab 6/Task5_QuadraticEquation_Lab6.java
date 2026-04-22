@@ -3,13 +3,13 @@
 
 import java.util.Scanner;
 
-public class Task5_QuadraticEquation {
+class Task5_QuadraticEquation_Lab6 {
     private double a;
     private double b;
     private double c;
 
     // Constructor
-    public Task5_QuadraticEquation(double a, double b, double c) {
+    public Task5_QuadraticEquation_Lab6(double a, double b, double c) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -53,7 +53,7 @@ public class Task5_QuadraticEquation {
         System.out.print("Enter c: ");
         double c = input.nextDouble();
 
-        Task5_QuadraticEquation equation = new Task5_QuadraticEquation(a, b, c);
+        Task5_QuadraticEquation_Lab6 equation = new Task5_QuadraticEquation_Lab6(a, b, c);
         double discriminant = equation.getDiscriminant();
 
         System.out.println("\n--- Results ---");

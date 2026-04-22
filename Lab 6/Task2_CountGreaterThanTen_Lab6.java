@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Task2_CountGreaterThanTen {
+class Task2_CountGreaterThanTen_Lab6 {
     /**
      * Counts how many integers in the array are greater than or equal to 10
      */

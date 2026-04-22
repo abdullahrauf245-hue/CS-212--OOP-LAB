@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Task1_SwapArrayElements {
+class Task1_SwapArrayElements_Lab6 {
     
     /**
      * Swaps the first and last elements of an array

@@ -1,10 +1,10 @@
 // Task#4: Stack Test Application
 // File: Task4_StackTest.java
 
-public class Task4_StackTest {
+class Task4_StackTest_Lab6 {
     public static void main(String[] args) {
         // Create a Stack object
-        Task4_Stack stack = new Task4_Stack();
+        Task4_Stack_Lab6 stack = new Task4_Stack_Lab6();
         
         System.out.println("=== Stack Test Application ===\n");
         

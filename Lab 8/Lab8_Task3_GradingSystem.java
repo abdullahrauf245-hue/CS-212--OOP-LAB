@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
-abstract class Student {
+abstract class GradingStudent {
     protected String name;
     protected int rollNo;
 
-    public Student(String name, int rollNo) {
+    public GradingStudent(String name, int rollNo) {
         this.name = name;
         this.rollNo = rollNo;
     }
@@ -27,7 +27,7 @@ abstract class Student {
     }
 }
 
-class ExamStudent extends Student {
+class ExamStudent extends GradingStudent {
     private double midterm;
     private double finalExam;
 
@@ -43,7 +43,7 @@ class ExamStudent extends Student {
     }
 }
 
-class ProjectStudent extends Student {
+class ProjectStudent extends GradingStudent {
     private double quiz;
     private double project;
     private double presentation;
@@ -61,7 +61,7 @@ class ProjectStudent extends Student {
     }
 }
 
-class AttendanceStudent extends Student {
+class AttendanceStudent extends GradingStudent {
     private double baseGrade;
     private double attendancePercent;
 
@@ -81,7 +81,7 @@ class AttendanceStudent extends Student {
 public class Lab8_Task3_GradingSystem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Student[] students = new Student[3];
+        GradingStudent[] students = new GradingStudent[3];
 
         System.out.println("=== University Grading System ===");
 
@@ -118,8 +118,8 @@ public class Lab8_Task3_GradingSystem {
         }
 
         System.out.println("\n=== Results ===");
-        Student top = students[0];
-        for (Student s : students) {
+        GradingStudent top = students[0];
+        for (GradingStudent s : students) {
             System.out.println(s);
             if (s.calculateGrade() > top.calculateGrade()) {
                 top = s;

@@ -9,7 +9,7 @@ import java.util.List;
 enum Gender { MALE, FEMALE }
 
 // ── Patient ────────────────────────────────────────────────────
-class Patient {
+class HospitalPatient {
     private String name;
     private LocalDate birthDate;
     private Gender gender;
@@ -18,7 +18,7 @@ class Patient {
     private Doctor treatingDoctor;
     private int daysOfStay;
 
-    public Patient(String name, LocalDate birthDate, Gender gender,
+    public HospitalPatient(String name, LocalDate birthDate, Gender gender,
                    LocalDate admissionDate, String report,
                    Doctor treatingDoctor, int daysOfStay) {
         this.name = name;
@@ -102,9 +102,9 @@ abstract class Doctor extends TeamMember {
         this.specialty = specialty;
     }
 
-    public abstract void treatPatient(Patient patient);
+    public abstract void treatPatient(HospitalPatient patient);
 
-    public void checkPatientReport(Patient patient) {
+    public void checkPatientReport(HospitalPatient patient) {
         System.out.println("[" + getName() + " checks report for " + patient.getName() + "]");
         System.out.println("  Report         : " + patient.getReport());
         System.out.println("  Treating doctor: " +
@@ -118,19 +118,19 @@ abstract class Doctor extends TeamMember {
 
 // ── SeniorDoctor ───────────────────────────────────────────────
 class SeniorDoctor extends Doctor {
-    private List<Patient> patients = new ArrayList<>();
+    private List<HospitalPatient> patients = new ArrayList<>();
 
     public SeniorDoctor(String name, String id, Gender gender,
                         LocalDate joinDate, String specialty) {
         super(name, id, gender, joinDate, specialty);
     }
 
-    public void addPatient(Patient p)    { patients.add(p); }
-    public void removePatient(Patient p) { patients.remove(p); }
-    public List<Patient> getPatients()   { return patients; }
+    public void addPatient(HospitalPatient p)    { patients.add(p); }
+    public void removePatient(HospitalPatient p) { patients.remove(p); }
+    public List<HospitalPatient> getPatients()   { return patients; }
 
     @Override
-    public void treatPatient(Patient patient) {
+    public void treatPatient(HospitalPatient patient) {
         System.out.println("[SeniorDoctor] " + getName() + " treats " + patient.getName() +
             " using evidence-based protocols and coordinates with nursing staff.");
     }
@@ -150,7 +150,7 @@ class Intern extends Doctor {
     public void setSupervisor(SeniorDoctor s) { this.supervisor = s; }
 
     @Override
-    public void treatPatient(Patient patient) {
+    public void treatPatient(HospitalPatient patient) {
         System.out.println("[Intern] " + getName() + " treats " + patient.getName() +
             " under supervision of Dr. " + supervisor.getName() + ".");
     }
@@ -158,19 +158,19 @@ class Intern extends Doctor {
 
 // ── Surgeon ────────────────────────────────────────────────────
 class Surgeon extends Doctor {
-    private List<Patient> patients = new ArrayList<>();
+    private List<HospitalPatient> patients = new ArrayList<>();
 
     public Surgeon(String name, String id, Gender gender,
                    LocalDate joinDate, String specialty) {
         super(name, id, gender, joinDate, specialty);
     }
 
-    public void addPatient(Patient p)    { patients.add(p); }
-    public void removePatient(Patient p) { patients.remove(p); }
-    public List<Patient> getPatients()   { return patients; }
+    public void addPatient(HospitalPatient p)    { patients.add(p); }
+    public void removePatient(HospitalPatient p) { patients.remove(p); }
+    public List<HospitalPatient> getPatients()   { return patients; }
 
     @Override
-    public void treatPatient(Patient patient) {
+    public void treatPatient(HospitalPatient patient) {
         System.out.println("[Surgeon] " + getName() + " treats " + patient.getName() +
             " by performing a surgical procedure in the operating theatre.");
     }
@@ -209,7 +209,7 @@ class Department {
 class Hospital {
     private String name;
     private String address;
-    private List<Patient> patients       = new ArrayList<>();
+    private List<HospitalPatient> patients       = new ArrayList<>();
     private List<Department> departments = new ArrayList<>();
 
     public Hospital(String name, String address) {
@@ -222,12 +222,12 @@ class Hospital {
         System.out.println("Department '" + d.getName() + "' added to " + name);
     }
 
-    public void addPatient(Patient p) {
+    public void addPatient(HospitalPatient p) {
         patients.add(p);
         System.out.println("Patient '" + p.getName() + "' admitted to " + name);
     }
 
-    public void removePatient(Patient p) {
+    public void removePatient(HospitalPatient p) {
         if (patients.remove(p))
             System.out.println("Patient '" + p.getName() + "' discharged from " + name);
         else
@@ -238,7 +238,7 @@ class Hospital {
     public void setName(String name)         { this.name = name; }
     public String getAddress()               { return address; }
     public void setAddress(String address)   { this.address = address; }
-    public List<Patient> getPatients()       { return patients; }
+    public List<HospitalPatient> getPatients()       { return patients; }
     public List<Department> getDepartments() { return departments; }
 
     public void printDetails() {
@@ -291,12 +291,12 @@ public class Task2_Hospital {
         pediatrics.addStaff(drOmar);
 
         // 5. Create and admit patients
-        Patient p1 = new Patient(
+        HospitalPatient p1 = new HospitalPatient(
             "Ahmed Raza", LocalDate.of(1990, 5, 22), Gender.MALE,
             LocalDate.of(2024, 4, 1),
             "Diagnosis: Hypertension, prescribed medication", drAli, 5);
 
-        Patient p2 = new Patient(
+        HospitalPatient p2 = new HospitalPatient(
             "Fatima Shah", LocalDate.of(2010, 11, 3), Gender.FEMALE,
             LocalDate.of(2024, 4, 2),
             "Diagnosis: Appendicitis, surgery required", drOmar, 7);

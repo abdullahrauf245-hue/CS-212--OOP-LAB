@@ -1,7 +1,7 @@
 // Task#2: Date Test Application
 // File: Task2_DateTest.java
 import java.util.Scanner;
-public class Task2_DateTest {
+class Task2_DateTest_Lab6 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         // Create a Date object using user input

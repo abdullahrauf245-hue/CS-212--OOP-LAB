@@ -84,4 +84,74 @@ public class Task4_StackTest {
         System.out.println("13. Attempting to pop from empty stack:");
         stack.pop();
     }
+
+    // Keep test self-contained to avoid cross-file default-package resolution issues.
+    static class Task4_Stack {
+        private int[] stck;
+        private int tos;
+
+        Task4_Stack() {
+            this(10);
+        }
+
+        Task4_Stack(int size) {
+            stck = new int[size];
+            tos = -1;
+        }
+
+        void push(int value) {
+            if (isFull()) {
+                System.out.println("Stack Overflow! Cannot push " + value);
+            } else {
+                stck[++tos] = value;
+                System.out.println("Pushed: " + value);
+            }
+        }
+
+        int pop() {
+            if (isEmpty()) {
+                System.out.println("Stack Underflow! Cannot pop.");
+                return -1;
+            }
+            int value = stck[tos--];
+            System.out.println("Popped: " + value);
+            return value;
+        }
+
+        boolean isEmpty() {
+            return tos < 0;
+        }
+
+        boolean isFull() {
+            return tos >= stck.length - 1;
+        }
+
+        int size() {
+            return tos + 1;
+        }
+
+        int peek() {
+            if (isEmpty()) return -1;
+            return stck[tos];
+        }
+
+        void displayStack() {
+            System.out.print("Stack (top to bottom): ");
+            if (isEmpty()) {
+                System.out.println("[Empty]");
+            } else {
+                for (int i = tos; i >= 0; i--) {
+                    System.out.print(stck[i] + (i > 0 ? " -> " : ""));
+                }
+                System.out.println();
+            }
+        }
+
+        void displayStatus() {
+            System.out.println("Size: " + size());
+            System.out.println("Empty: " + isEmpty());
+            System.out.println("Full: " + isFull());
+            System.out.println("Top: " + (isEmpty() ? "N/A" : peek()));
+        }
+    }
 }

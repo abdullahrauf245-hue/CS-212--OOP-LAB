@@ -3,7 +3,7 @@
 
 import java.util.Scanner;
 
-public class Task3_HealthProfile {
+class Task3_HealthProfile_Lab6 {
 
     // Instance variables
     private String firstName;
@@ -16,7 +16,7 @@ public class Task3_HealthProfile {
     private double weightPounds;
 
     // Constructor
-    public Task3_HealthProfile(String firstName, String lastName, String gender,
+    public Task3_HealthProfile_Lab6(String firstName, String lastName, String gender,
                                int birthMonth, int birthDay, int birthYear,
                                double heightInches, double weightPounds) {
         this.firstName = firstName;
@@ -136,9 +136,9 @@ public class Task3_HealthProfile {
         double weight = input.nextDouble();
 
         // Create the HealthProfile object
-        Task3_HealthProfile profile = new Task3_HealthProfile(fName, lName, gender, 
-                                                              month, day, year, 
-                                                              height, weight);
+        Task3_HealthProfile_Lab6 profile = new Task3_HealthProfile_Lab6(fName, lName, gender,
+                                        month, day, year,
+                                        height, weight);
 
         // Display results with formatting
         System.out.println("\n===============================");
