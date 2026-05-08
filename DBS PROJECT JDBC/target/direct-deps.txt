@@ -1,3 +1,0 @@
-The following files have been resolved:
-   com.mysql:mysql-connector-j:jar:9.0.0:compile -- module mysql.connector.j (auto)
-

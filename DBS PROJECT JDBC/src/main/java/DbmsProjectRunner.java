@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlRunner {
+public class DbmsProjectRunner {
     private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
-    private static final String DEFAULT_USER = "nothing";
+    private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "Abdullah";
     private static final String DEFAULT_SQL_PATH = "Project DBMS.sql";
 
