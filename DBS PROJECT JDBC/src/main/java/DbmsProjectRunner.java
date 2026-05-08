@@ -9,19 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbmsProjectRunner {
-    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
+    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/kidney_transplant?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "Abdullah";
     private static final String DEFAULT_SQL_PATH = "Project DBMS.sql";
 
     public static void main(String[] args) throws Exception {
+        String sqlPath = args.length > 0 ? args[0] : DEFAULT_SQL_PATH;
+        String output = runSqlScript(sqlPath);
+        System.out.print(output);
+    }
+
+    public static String runSqlScript(String sqlPath) throws Exception {
         String url = getenvOrDefault("DB_URL", DEFAULT_URL);
         String user = getenvOrDefault("DB_USER", DEFAULT_USER);
         String pass = getenvOrDefault("DB_PASS", DEFAULT_PASS);
-        String sqlPath = args.length > 0 ? args[0] : DEFAULT_SQL_PATH;
 
         String sql = Files.readString(Path.of(sqlPath));
         List<String> statements = splitSql(sql);
+        StringBuilder out = new StringBuilder();
 
         try (Connection conn = DriverManager.getConnection(url, user, pass);
              Statement stmt = conn.createStatement()) {
@@ -31,12 +37,13 @@ public class DbmsProjectRunner {
                 }
                 boolean hasResult = stmt.execute(statement);
                 if (hasResult) {
-                    printResultSet(stmt.getResultSet());
+                    printResultSet(stmt.getResultSet(), out);
                 }
             }
         }
 
-        System.out.println("SQL script executed successfully.");
+        out.append("SQL script executed successfully.").append(System.lineSeparator());
+        return out.toString();
     }
 
     private static String getenvOrDefault(String name, String fallback) {
@@ -103,7 +110,7 @@ public class DbmsProjectRunner {
         return i;
     }
 
-    private static void printResultSet(ResultSet rs) throws Exception {
+    private static void printResultSet(ResultSet rs, StringBuilder out) throws Exception {
         ResultSetMetaData meta = rs.getMetaData();
         int cols = meta.getColumnCount();
         while (rs.next()) {
@@ -114,7 +121,7 @@ public class DbmsProjectRunner {
                 }
                 row.append(rs.getString(i));
             }
-            System.out.println(row);
+            out.append(row).append(System.lineSeparator());
         }
     }
 }

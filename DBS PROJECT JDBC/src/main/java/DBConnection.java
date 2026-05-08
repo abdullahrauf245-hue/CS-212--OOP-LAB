@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
+    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/kidney_transplant?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "Abdullah";
 
