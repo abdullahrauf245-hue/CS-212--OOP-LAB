@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbmsProjectRunner {
-    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/kidney_transplant?allowMultiQueries=true&useSSL=false&serverTimezone=UTC";
+    private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/kidney_transplant?allowMultiQueries=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "Abdullah";
     private static final String DEFAULT_SQL_PATH = "Project DBMS.sql";
