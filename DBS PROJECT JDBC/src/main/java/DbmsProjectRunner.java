@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbmsProjectRunner {
+    private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
     private static final String DEFAULT_URL = "jdbc:mysql://127.0.0.1:3306/kidney_transplant?allowMultiQueries=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "Abdullah";
@@ -21,6 +22,7 @@ public class DbmsProjectRunner {
     }
 
     public static String runSqlScript(String sqlPath) throws Exception {
+        ensureDriverLoaded();
         String url = getenvOrDefault("DB_URL", DEFAULT_URL);
         String user = getenvOrDefault("DB_USER", DEFAULT_USER);
         String pass = getenvOrDefault("DB_PASS", DEFAULT_PASS);
@@ -44,6 +46,16 @@ public class DbmsProjectRunner {
 
         out.append("SQL script executed successfully.").append(System.lineSeparator());
         return out.toString();
+    }
+
+    private static void ensureDriverLoaded() throws Exception {
+        try {
+            Class.forName(DRIVER_CLASS);
+        } catch (ClassNotFoundException e) {
+            throw new Exception(
+                    "MySQL JDBC driver not found. Ensure mysql-connector-j is on the classpath (run with Maven).",
+                    e);
+        }
     }
 
     private static String getenvOrDefault(String name, String fallback) {
